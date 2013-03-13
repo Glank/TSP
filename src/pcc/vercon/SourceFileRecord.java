@@ -9,10 +9,6 @@ public class SourceFileRecord implements java.io.Serializable{
 	public  SourceFileRecord(String[] lines, String name){
 		//TODO
 	}
-	public int getLLOC(){
-		//TODO
-		return 0;
-	}
 	public String getName(){
 		//TODO
 		return null;

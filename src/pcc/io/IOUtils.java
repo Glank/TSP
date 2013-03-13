@@ -22,7 +22,7 @@ public class IOUtils{
 		//TODO
 		return null;
 	}
-	public static void writeTextFile(String filename, String contents){
+	public static void writeSourceFile(String filename, String contents){
 		//TODO
 	}
 	public static void createFolder(String name){
