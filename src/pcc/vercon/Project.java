@@ -8,7 +8,7 @@ public class Project implements java.io.Serializable{
 	/**
 	 * version number -> project version file name
 	 */
-	private HashMap<String,String> versions;
+	private ArrayList<String> versions;
 	private ArrayList<String> sourceFileNames;
 	public  Project(){
 		//TODO

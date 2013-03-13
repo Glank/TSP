@@ -21,7 +21,7 @@
 <br><code>git clone <a href="https://github.com/Glank/TSP.git">https://github.com/Glank/TSP.git</a></code>
 <br>The current version in of the project will now be in [yourCurrentDirectory]/TSP
 <p></p><h2>
-<a name="5---install-a-merge-tool" class="anchor" href="#5---install-a-merge-tool"><span class="mini-icon mini-icon-link"></span></a>5)   Install a merge tool:</h2>
+<a name="5---install-a-merge-tool" class="anchor" href="#5---install-a-merge-tool"><span class="mini-icon mini-icon-link"></span></a>5) (optional)   Install a merge tool:</h2>
 <br>If you're using windows, you can download kdiff3 <a href="http://sourceforge.net/projects/kdiff3/files/kdiff3/0.9.97/">here</a>.
 <br>If you're using linux, just run this in the terminal:
 <br><code>sudo apt-get install kdiff3</code>
