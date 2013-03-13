@@ -1,4 +1,4 @@
-</a>Git Setup</h1>
+<h1>Git Setup</h1>
 
 <p></p><p></p><h2>
 <a name="1---install-git" class="anchor" href="#1---install-git"><span class="mini-icon mini-icon-link"></span></a>1)   Install Git:</h2>
@@ -16,6 +16,7 @@
 <p></p><h2>
 <a name="4---download-the-git-repository" class="anchor" href="#4---download-the-git-repository"><span class="mini-icon mini-icon-link"></span></a>4)   Download the git repository:</h2>
 <br>In the terminal/command prompt, navigate to the folder where you wish to put the repository.
+<br>If you are using Eclipse, you should navigate into your workspace folder.
 <br>Then run the following command: 
 <br><code>git clone <a href="https://github.com/Glank/TSP.git">https://github.com/Glank/TSP.git</a></code>
 <br>The current version in of the project will now be in [yourCurrentDirectory]/TSP
