@@ -1,0 +1,42 @@
+package pcc.test.analysis;
+
+import java.util.ArrayList;
+
+import pcc.vercon.ProjectVersion;
+import pcc.vercon.SourceFileRecord;
+
+public class StubVersion1 extends ProjectVersion {
+	private static final long serialVersionUID = 4623446490667911804L;
+	
+	StubFile1 stubFileA = new StubFile1();
+	StubFile2 stubFileB = new StubFile2();
+
+	public StubVersion1() {
+		super("", "", "", new ArrayList<String>());
+	}
+	
+	@Override
+	public ArrayList<SourceFileRecord> getFiles(){
+		ArrayList<SourceFileRecord> files = new ArrayList<SourceFileRecord>();
+		files.add(stubFileA);
+		files.add(stubFileB);
+		return files;
+	}
+	
+	@Override
+	public SourceFileRecord getFile(String name){
+		if(name.equals("StubFileA"))
+			return stubFileA;
+		else if(name.equals("StubFileB"))
+			return stubFileB;
+		else
+			return null;
+	}
+	
+	@Override
+	public String getMetaData(){
+		return "<Meta Data Version 1>";
+	}
+	
+	
+}
