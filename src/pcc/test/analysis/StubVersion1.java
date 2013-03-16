@@ -25,9 +25,9 @@ public class StubVersion1 extends ProjectVersion {
 	
 	@Override
 	public SourceFileRecord getFile(String name){
-		if(name.equals("StubFileA"))
+		if(name.equals("StubFileA.txt"))
 			return stubFileA;
-		else if(name.equals("StubFileB"))
+		else if(name.equals("StubFileB.txt"))
 			return stubFileB;
 		else
 			return null;
@@ -38,5 +38,8 @@ public class StubVersion1 extends ProjectVersion {
 		return "<Meta Data Version 1>";
 	}
 	
-	
+	@Override
+	public String getNumber(){
+		return "1";
+	}
 }

@@ -9,6 +9,7 @@ public class StubVersion2 extends ProjectVersion {
 	private static final long serialVersionUID = 4623446490667911804L;
 	
 	StubFile3 stubFileA = new StubFile3();
+	StubFile4 stubFileC = new StubFile4();
 
 	public StubVersion2() {
 		super("", "", "", new ArrayList<String>());
@@ -18,13 +19,16 @@ public class StubVersion2 extends ProjectVersion {
 	public ArrayList<SourceFileRecord> getFiles(){
 		ArrayList<SourceFileRecord> files = new ArrayList<SourceFileRecord>();
 		files.add(stubFileA);
+		files.add(stubFileC);
 		return files;
 	}
 	
 	@Override
 	public SourceFileRecord getFile(String name){
-		if(name.equals("StubFileA"))
+		if(name.equals("StubFileA.txt"))
 			return stubFileA;
+		else if(name.equals("StubFileC.txt"))
+			return stubFileC;
 		else
 			return null;
 	}
@@ -34,5 +38,8 @@ public class StubVersion2 extends ProjectVersion {
 		return "<Meta Data Version 2>";
 	}
 	
-	
+	@Override
+	public String getNumber(){
+		return "2";
+	}
 }

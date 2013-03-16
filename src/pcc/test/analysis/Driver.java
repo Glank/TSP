@@ -21,7 +21,7 @@ public class Driver {
 		System.out.println("LLOC: " + lloc);
 		
 		System.out.println("### Get LOC Changes ###");
-		report = ChangeCounterUtils.getLOCChanges(version1, version2);
+		report = ChangeCounterUtils.getLLOCChanges(version1, version2);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(report);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

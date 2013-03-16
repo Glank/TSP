@@ -5,7 +5,7 @@ import pcc.vercon.SourceFileRecord;
 
 public class StubFile2 extends SourceFileRecord{
 
-	private static final long serialVersionUID = -8027964992078075673L;
+	private static final long serialVersionUID = -8027964912078075673L;
 
 	public StubFile2() {
 		super(null,null);

@@ -2,10 +2,9 @@ package pcc.test.analysis;
 
 import pcc.vercon.SourceFileRecord;
 
-//Version 1, A
 public class StubFile3 extends SourceFileRecord{
 
-	private static final long serialVersionUID = -8027964992078075673L;
+	private static final long serialVersionUID = -8027923992078075673L;
 
 	public StubFile3() {
 		super(null,null);

@@ -4,6 +4,7 @@ import pcc.vercon.ProjectVersion;
 
 
 public class IOUtilsStub{
+/*
 	public static Project openProject(String filename){
 		//TODO
 		return null;
@@ -31,4 +32,5 @@ public class IOUtilsStub{
 	public static void createFolder(String name){
 		System.out.println("MkDir: " + name);
 	}
+//*/
 }
