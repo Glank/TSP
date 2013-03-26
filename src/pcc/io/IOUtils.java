@@ -21,7 +21,14 @@ public class IOUtils {
 		return (retProject);
 	}
 
-	public static void saveProject(Project project, String fileName) {
+	public static void saveProject(Project project, String fileName) throws IOException {
+		FileOutputStream fout	=	new FileOutputStream (fileName);
+		
+		ObjectOutputStream oos	=	new ObjectOutputStream (fout);
+		
+		oos.writeObject (project);
+		oos.close();
+		
 		
 	}
 
@@ -38,8 +45,14 @@ public class IOUtils {
 		return (retVersion);
 	}
 
-	public static void saveVersion(Project project, String fileName) {
+	public static void saveVersion(ProjectVersion projectVersion, String fileName) throws IOException {
 
+		FileOutputStream fout	=	new FileOutputStream (fileName);
+		
+		ObjectOutputStream oos	=	new ObjectOutputStream (fout);
+		
+		oos.writeObject (projectVersion);
+		oos.close();
 	}
 
 	public static String[] openSourceFile(String fileName) throws IOException {
