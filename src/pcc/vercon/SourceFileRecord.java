@@ -20,8 +20,18 @@ public class SourceFileRecord implements java.io.Serializable
 		return (m_name);
 	}
 	
+	public void setName (String p_name)
+	{
+		m_name	=	p_name;
+	}
+	
 	public String[] getLines()
 	{
 		return (m_lines);
+	}
+	
+	public void setLines(String[] p_lines)
+	{
+		m_lines	=	p_lines;
 	}
 }
