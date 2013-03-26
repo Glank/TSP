@@ -10,8 +10,10 @@ public class Project implements java.io.Serializable{
 	 */
 	private ArrayList<String> versions;
 	private ArrayList<String> sourceFileNames;
-	public  Project(){
-		//TODO
+	
+	public  Project()
+	{
+		
 	}
 	public void commit(String number, String author, String reason){
 		//TODO
