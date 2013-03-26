@@ -9,16 +9,17 @@ import pcc.vercon.ProjectVersion;
 
 public class IOUtils {
 
-	public static Project openProject(String fileName) {
-		Project		retProject = null;
+	public static Project openProject(String fileName) throws IOException, ClassNotFoundException {
+		Project		retProj = null;
 		
-		File f=new File(fileName);
-		if(f.exists())
-		{
-			
-		}
-	
-		return (retProject);
+		FileInputStream	fin	=	new FileInputStream (fileName);
+		
+		ObjectInputStream	ois	=	new ObjectInputStream (fin);
+		
+		retProj	=	(Project) ois.readObject();
+		ois.close();
+		
+		return (retProj);
 	}
 
 	public static void saveProject(Project project, String fileName) throws IOException {
@@ -32,15 +33,15 @@ public class IOUtils {
 		
 	}
 
-	public static ProjectVersion openVersion(String fileName) {
+	public static ProjectVersion openVersion(String fileName) throws IOException, ClassNotFoundException {
 		ProjectVersion		retVersion = null;
 		
-		File f=new File(fileName);
+		FileInputStream	fin	=	new FileInputStream (fileName);
 		
-		if(f.exists())
-		{
-			
-		}
+		ObjectInputStream	ois	=	new ObjectInputStream (fin);
+		
+		retVersion	=	(ProjectVersion) ois.readObject();
+		ois.close();
 		
 		return (retVersion);
 	}
@@ -69,9 +70,11 @@ public class IOUtils {
 			String [] splitLine = line.split("\n");
 			for(String x:splitLine)
 			{
-				store.add(line);
+				store.add(x);
 			}
 		}
+		
+		reader.close();
 		
 		String [] sourceCode=(String[]) store.toArray();
 		return sourceCode;
