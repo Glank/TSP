@@ -50,7 +50,7 @@ public class Driver {
 		
 		System.out.println("### Get LOC Changes ###");
 		report = ChangeCounterUtils.getLLOCChanges(version1, version2);
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println(report);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
