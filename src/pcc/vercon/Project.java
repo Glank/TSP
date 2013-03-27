@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 public class Project implements java.io.Serializable{
+	private static final long serialVersionUID = -8184397015459513852L;
 	private String latestVersion;
 	/**
 	 * version number -> project version file name

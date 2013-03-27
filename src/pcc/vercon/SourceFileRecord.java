@@ -2,6 +2,7 @@ package pcc.vercon;
 
 public class SourceFileRecord implements java.io.Serializable
 {
+	private static final long serialVersionUID = -6498586993955677154L;
 	/**
 	 * file name
 	 */

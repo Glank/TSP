@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
-import java.util.Iterator;
 
 
 public class ProjectVersion implements java.io.Serializable
 {
+	private static final long serialVersionUID = -6225543935740429316L;
 	private String m_number;
 	private String m_reason;
 	private String m_author;
@@ -16,10 +16,11 @@ public class ProjectVersion implements java.io.Serializable
 	
 	public  ProjectVersion(String number, String author, String reason, ArrayList<String> filenames)
 	{
-		m_number	=	(null == number) ? "None" : number;
-		m_author	=	(null == author) ? "None": author;
-		m_reason	=	(null == reason) ? "None" : reason;
-		m_files		=	new ArrayList<SourceFileRecord>();
+		m_number		=	(null == number) ? "None" : number;
+		m_author		=	(null == author) ? "None": author;
+		m_reason		=	(null == reason) ? "None" : reason;
+		m_files			=	new ArrayList<SourceFileRecord>();
+		m_dateCommited	=	new Date();
 		
 		for (int ii = 0; ii < filenames.size(); ii ++)
 		{
@@ -69,7 +70,7 @@ public class ProjectVersion implements java.io.Serializable
 	 */
 	public String getMetaData()
 	{
-		String	ret		=	"Version #: ".concat(m_number).concat(" ||| Reason: ").concat(m_reason).concat(" ||| Author: ").concat(m_author);	
+		String	ret		=	"Version #: ".concat(m_number).concat(" ||| Reason: ").concat(m_reason).concat(" ||| Author: ").concat(m_author).concat(" ||| Date: ").concat(m_dateCommited.toString());	
 		
 		return (ret);
 	}

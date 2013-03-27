@@ -78,17 +78,15 @@ public class ChangeCounterUtils{
 	
 	//find the instance in listA that is farthest from any instance in listB
 	private static int getFurthestInstance(LinkedList<Integer> listA, LinkedList<Integer> listB){
-		int i = 0, j, minDist, maxDist=0, maxIndex=-1,dist;
+		int i = 0, minDist, maxDist=0, maxIndex=-1,dist;
 		for(Integer a:listA){
 			//find the instance in listB that is closest to 'a'
 			minDist = Integer.MAX_VALUE;
-			j=0;
 			for(Integer b:listB){
 				dist = Math.abs(a-b);
 				if(dist<minDist){
 					minDist = dist;
 				}
-				j++;
 			}
 			//if the instance of 'a' that is farthest from any instance in listB
 			if(minDist>maxDist){
