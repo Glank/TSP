@@ -1,6 +1,6 @@
 package pcc.vercon;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 
 public class Project implements java.io.Serializable{
@@ -15,9 +15,9 @@ public class Project implements java.io.Serializable{
 	
 	public  Project()
 	{
-		versions		=	new ArrayList();
-		sourceFileNames	=	new ArrayList();
-		m_projVersions	=	new ArrayList();
+		versions		=	new ArrayList<String>();
+		sourceFileNames	=	new ArrayList<String>();
+		m_projVersions	=	new ArrayList<ProjectVersion>();
 		
 	}
 	
