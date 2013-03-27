@@ -15,9 +15,15 @@ public class Project implements java.io.Serializable{
 	
 	public  Project()
 	{
+<<<<<<< HEAD
+		versions		=	new ArrayList();
+		sourceFileNames	=	new ArrayList();
+		m_projVersions	=	new ArrayList();
+=======
 		versions		=	new ArrayList<String>();
 		sourceFileNames	=	new ArrayList<String>();
 		m_projVersions	=	new ArrayList<ProjectVersion>();
+>>>>>>> 055e9d8f0aa23a03a7b98cc2943601dc3f790795
 		
 	}
 	
