@@ -15,14 +15,17 @@ public class Main{
 	public static void main(String[] args){
 		//init resources
 		in = new Scanner(System.in);
+		//display the commands
+		displayCommands();
+		//ask for input until forced exit
 		while(true)
 			promptMainMenu();
 	}
 	public static void openProject(){
 		System.out.print("Project name: ");
-		String name = in.nextLine();
+		projectName = in.nextLine();
 		try {
-			project = IOUtils.openProject(name+File.separator+"project.dat");
+			project = IOUtils.openProject(projectName+File.separator+"project.dat");
 		} catch (Throwable t){
 			System.out.println("Error opening project file.");
 		}
@@ -64,13 +67,13 @@ public class Main{
 		else if(input.equals("exit"))
 			System.exit(0);
 		else if(input.equals("help"))
-			help();
+			displayCommands();
 		else{
 			System.out.println("Invalid command entered.");
-			help();
+			displayCommands();
 		}
 	}
-	private static void help(){
+	private static void displayCommands(){
 		System.out.println("The following are the only valid commands:");
 		System.out.println("  new: Create a new project.");
 		System.out.println("  open: Open an existing project.");
@@ -88,11 +91,11 @@ public class Main{
 	}
 	public static void newProject(){
 		System.out.print("Project name: ");
-		String name = in.nextLine();
-		if(!name.matches("[a-zA-Z0_9_]+"))
+		projectName = in.nextLine();
+		if(!projectName.matches("[a-zA-Z0_9_]+"))
 			System.out.println("Invalid name entered: letters and underscores only.");
 		else{
-			if((new File(name)).exists())
+			if((new File(projectName)).exists())
 				System.out.println("A folder/file with the given name already exists.");
 			else{
 				project = new Project();
