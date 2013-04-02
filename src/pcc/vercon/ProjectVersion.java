@@ -1,8 +1,9 @@
 package pcc.vercon;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Date;
+
+import pcc.io.IOUtils;
 
 
 public class ProjectVersion implements java.io.Serializable
@@ -14,7 +15,7 @@ public class ProjectVersion implements java.io.Serializable
 	private Date m_dateCommited;
 	private ArrayList<SourceFileRecord> m_files;
 	
-	public  ProjectVersion(String number, String author, String reason, ArrayList<String> filenames)
+	public  ProjectVersion(String number, String author, String reason, ArrayList<String> filenames) throws IOException
 	{
 		m_number		=	(null == number) ? "None" : number;
 		m_author		=	(null == author) ? "None": author;
@@ -24,7 +25,9 @@ public class ProjectVersion implements java.io.Serializable
 		
 		for (int ii = 0; ii < filenames.size(); ii ++)
 		{
-			SourceFileRecord	srcFileRec	=	new SourceFileRecord (null, filenames.get(ii));
+			
+			String[] lines = IOUtils.openSourceFile(filenames.get(ii));
+			SourceFileRecord	srcFileRec	=	new SourceFileRecord (lines, filenames.get(ii));
 			m_files.add(srcFileRec);
 		}
 	}
@@ -74,70 +77,4 @@ public class ProjectVersion implements java.io.Serializable
 		
 		return (ret);
 	}
-	
-	public boolean setLinesForFile (String fileName, String [] lines)
-	{
-		boolean				found			=	false;
-		
-		if (fileName == null || fileName.isEmpty())
-		{
-			return found;
-		}
-		
-		//
-		// Find the src-file-record for this file-name and set these lines for that.
-		// --> this can be in the constructor itself where it can take a hashmap of filename to lines of code.
-		//
-		SourceFileRecord	thisSrcFileRec	=	null;
-		
-		for (int ii = 0; ii < m_files.size(); ii ++)
-		{
-			if ( (thisSrcFileRec = m_files.get(ii)).getName().equalsIgnoreCase(fileName))
-			{
-				thisSrcFileRec.setLines(lines);
-				
-				found	=	true;
-
-				break;
-				
-			}
-		}
-
-		return (found);
-	}
-	
-	public boolean setLinesForFiles ( HashMap<String, String []> filesAndLines)
-	{
-		boolean				found			=	false;
-		
-		if (filesAndLines == null || filesAndLines.isEmpty())
-		{
-			return found;
-		}
-		
-		//
-		// Find the src-file-record for this file-name and set these lines for that.
-		// --> this can be in the constructor itself where it can take a hashmap of filename to lines of code.
-		//
-		String				curFileName		=	null;
-		String[]			curLines		=	null;
-		
-		for (Map.Entry<String, String[]> entry : filesAndLines.entrySet())
-		{
-	
-			curFileName	=	entry.getKey();
-			curLines	=	entry.getValue();
-
-			// Very unoptimized - but good enough for now..
-			setLinesForFile(curFileName, curLines);
-		}
-
-		if (null != curFileName)
-		{
-			found	=	true;
-		}
-		
-		return (found);
-	}
-	
 }

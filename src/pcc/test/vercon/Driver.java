@@ -1,5 +1,6 @@
 package pcc.test.vercon;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +8,7 @@ import pcc.analysis.ChangeCounterUtils;
 import pcc.vercon.*;
 
 public class Driver {
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		ArrayList<String>	filenames	=	new ArrayList<String> ();
 		HashMap<String, String[]> filesAndLines	=	new HashMap<String, String[]> ();
 		
@@ -22,7 +23,7 @@ public class Driver {
 
 
 		ProjectVersion version1 = new ProjectVersion ("1","me", "testing", filenames);
-		version1.setLinesForFiles(filesAndLines);
+		//version1.setLinesForFiles(filesAndLines);
 
 		// different lines for version 2
 		alines[1]			=	"boogie";
@@ -33,7 +34,7 @@ public class Driver {
 
 		
 		ProjectVersion version2 = new ProjectVersion ("2","me", "testing 2", filenames);
-		version2.setLinesForFiles(filesAndLines);
+		//version2.setLinesForFiles(filesAndLines);
 		
 		System.out.println("### Export Change Lables ###");
 		ChangeCounterUtils.exportChangeLabels("testAnalysis", version1, version2);

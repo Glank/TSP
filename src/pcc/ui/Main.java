@@ -1,10 +1,10 @@
 package pcc.ui;
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import pcc.analysis.ChangeCounterUtils;
 import pcc.io.IOUtils;
-import pcc.test.integration.IOUtilsStub;
 import pcc.vercon.Project;
 import pcc.vercon.ProjectVersion;
 
@@ -148,7 +148,11 @@ public class Main{
 		String author = in.nextLine();
 		System.out.print("Reason for commit: ");
 		String reason = in.nextLine();
-		project.commit(number, author, reason);
+		try {
+			project.commit(number, author, reason);
+		} catch (IOException e) {
+			System.out.println("Error commiting source files.");
+		}
 		saveProject();
 	}
 	public static void exportChangeLables(){

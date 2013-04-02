@@ -1,5 +1,6 @@
 package pcc.test.integration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import pcc.vercon.ProjectVersion;
@@ -11,7 +12,7 @@ public class StubVersion2 extends ProjectVersion {
 	StubFile3 stubFileA = new StubFile3();
 	StubFile4 stubFileC = new StubFile4();
 
-	public StubVersion2() {
+	public StubVersion2() throws IOException {
 		super("", "", "", new ArrayList<String>());
 	}
 	

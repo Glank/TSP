@@ -1,9 +1,11 @@
 package pcc.test.analysis;
 
+import java.io.IOException;
+
 import pcc.analysis.ChangeCounterUtils;
 
 public class Driver {
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		StubVersion1 version1 = new StubVersion1();
 		StubVersion2 version2 = new StubVersion2();
 		

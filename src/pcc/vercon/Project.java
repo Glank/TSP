@@ -1,4 +1,5 @@
 package pcc.vercon;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -22,7 +23,7 @@ public class Project implements java.io.Serializable{
 		
 	}
 	
-	public void commit(String number, String author, String reason)
+	public void commit(String number, String author, String reason) throws IOException
 	{
 		ProjectVersion	projVersion		=	new ProjectVersion (number, author, reason, sourceFileNames);
 		
