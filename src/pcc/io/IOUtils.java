@@ -7,7 +7,6 @@ import pcc.vercon.Project;
 import pcc.vercon.ProjectVersion;
 
 public class IOUtils {
-
 	public static Project openProject(String fileName) throws IOException, ClassNotFoundException {
 		Project		retProj = null;
 		
@@ -95,9 +94,6 @@ public class IOUtils {
 		{
 			
 		}
-		
-		
-		
 	}
 
 	public static void createFolder(String name)
@@ -113,6 +109,5 @@ public class IOUtils {
 		     }
 
 		  }
-		
 	}
 }

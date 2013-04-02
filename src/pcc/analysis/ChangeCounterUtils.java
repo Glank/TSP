@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import pcc.io.IOUtils;
+import pcc.test.integration.IOUtilsStub;
 import pcc.vercon.ProjectVersion;
 import pcc.vercon.SourceFileRecord;
 

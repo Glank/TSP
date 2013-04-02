@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import pcc.analysis.ChangeCounterUtils;
 import pcc.io.IOUtils;
+import pcc.test.integration.IOUtilsStub;
 import pcc.vercon.Project;
 import pcc.vercon.ProjectVersion;
 
@@ -27,6 +28,7 @@ public class Main{
 		try {
 			project = IOUtils.openProject(projectName+File.separator+"project.dat");
 		} catch (Throwable t){
+			t.printStackTrace();
 			System.out.println("Error opening project file.");
 		}
 	}
@@ -34,10 +36,21 @@ public class Main{
 		if(project==null)
 			return;
 		try {
+			File dir = new File(projectName);
+			if(!dir.exists())
+				IOUtils.createFolder(projectName);
 			IOUtils.saveProject(project, projectName+File.separator+"project.dat");
 		} catch (Throwable t) {
+			t.printStackTrace();
 			System.out.println("Error updating project file.");
 		}
+	}
+	public static void explicitSave(){
+		if(project==null){
+			System.out.println("Please open or create a project first.");
+			return;
+		}
+		saveProject();
 	}
 	public static void promptMainMenu(){
 		//request input
@@ -68,6 +81,8 @@ public class Main{
 			System.exit(0);
 		else if(input.equals("help"))
 			displayCommands();
+		else if(input.equals("save"))
+			saveProject();
 		else{
 			System.out.println("Invalid command entered.");
 			displayCommands();
