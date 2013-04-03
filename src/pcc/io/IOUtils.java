@@ -74,8 +74,10 @@ public class IOUtils {
 		
 		reader.close();
 		
-		String [] sourceCode=(String[]) store.toArray();
-		return sourceCode;
+		String[] lines = new String[store.size()];
+		for(int i = 0; i < store.size(); i++)
+			lines[i] = store.get(i);
+		return lines;
 
 	}
 

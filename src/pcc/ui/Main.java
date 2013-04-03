@@ -124,6 +124,15 @@ public class Main{
 		}
 		System.out.print("File name: ");
 		String name = in.nextLine();
+		try{
+			File file = new File(name);
+			if(!file.exists())
+				throw new RuntimeException();
+		}
+		catch(Throwable t){
+			System.out.println("Error adding file.");
+			return;
+		}
 		project.addFile(name);
 		saveProject();
 	}
