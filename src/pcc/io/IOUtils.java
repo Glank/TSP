@@ -81,21 +81,34 @@ public class IOUtils {
 
 	}
 
-	public static void writeSourceFile(String fileName, String contents) {
-		
+	public static void writeSourceFile(String dir, String fileName, String contents) throws IOException {
+		fileName = dir+File.separator+fileName.substring(fileName.lastIndexOf(File.separator)+1);
+		System.out.println("Writing: " + fileName);
+		File file = new File(fileName);
+		while(file.exists()){
+			fileName = "other_"+fileName;
+			file = new File(fileName);
+		}
+		if(!file.exists())
+			file.createNewFile();
 		BufferedWriter writer=null;
 		FileWriter fwriter=null;
+		fwriter=new FileWriter(fileName);
+		writer=new BufferedWriter(fwriter);
+		writer.write(contents);
+		writer.newLine();
+		
+		writer.close();
+	}
+	
+	public static boolean fileExists(String name) {
+		File file = null;
 		try{
-			fwriter=new FileWriter(fileName);
-			writer=new BufferedWriter(fwriter);
-			writer.write(contents);
-			writer.newLine();
-			
-			writer.close();
-		}catch (Exception e)
-		{
-			
+			file = new File(name);
+		}catch(Throwable t){
+			return false;
 		}
+	    return file.exists();
 	}
 
 	public static void createFolder(String name)
@@ -111,5 +124,30 @@ public class IOUtils {
 		     }
 
 		  }
+	}
+	
+	public static void deleteFolder(String name){
+		File f = new File(name);
+		if(f.exists()){
+			if(f.isDirectory()) {
+	            deleteFolder(f);
+	        } else {
+	            f.delete();
+	        }
+		}
+	}
+	
+	private static void deleteFolder(File folder) {
+	    File[] files = folder.listFiles();
+	    if(files!=null) { //some JVMs return null for empty dirs
+	        for(File f: files) {
+	            if(f.isDirectory()) {
+	                deleteFolder(f);
+	            } else {
+	                f.delete();
+	            }
+	        }
+	    }
+	    folder.delete();
 	}
 }

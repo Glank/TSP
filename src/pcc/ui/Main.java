@@ -114,6 +114,7 @@ public class Main{
 				System.out.println("A folder/file with the given name already exists.");
 			else{
 				project = new Project();
+				saveProject();
 			}
 		}
 	}
@@ -175,8 +176,20 @@ public class Main{
 		String version2 = in.nextLine();
 		System.out.print("Output directory: ");
 		String dir = in.nextLine();
-		ChangeCounterUtils.exportChangeLabels(dir,
-				project.getVersion(version1), project.getVersion(version2));
+		try {
+			if(IOUtils.fileExists(dir)){
+				System.out.println("Are you sure you want to delete all files in this directory? (N/y)");
+				String confirm = in.nextLine();
+				if(!confirm.matches("([yY])|([yY][eE][sS])"))
+					return;
+				IOUtils.deleteFolder(dir);
+			}
+			ChangeCounterUtils.exportChangeLabels(dir,
+					project.getVersion(version1), project.getVersion(version2));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error exporting change labels.");
+		}
 	}
 	public static void displayAllFiles(){
 		if(project==null){

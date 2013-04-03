@@ -1,5 +1,6 @@
 package pcc.analysis;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -110,7 +111,7 @@ public class ChangeCounterUtils{
 		}
 		return count;
 	}
-	private static void exportChangeLabels(String version1Meta, String version2Meta, String[] old, String[] cur, String labelFileName){
+	private static void exportChangeLabels(String dir, String version1Meta, String version2Meta, String[] old, String[] cur, String labelFileName) throws IOException{
 		LinkedList<Change> changes = getChanges(old,cur);
 		StringBuilder output = new StringBuilder();
 		int added = countLLOCType(changes, ChangeType.ADDED);
@@ -148,18 +149,18 @@ public class ChangeCounterUtils{
 			}
 		}
 		
-		IOUtils.writeSourceFile(labelFileName, output.toString());
+		IOUtils.writeSourceFile(dir, labelFileName, output.toString());
 	}
-	public static void exportChangeLabels(String toDirName, ProjectVersion v1, ProjectVersion v2){
+	public static void exportChangeLabels(String toDirName, ProjectVersion v1, ProjectVersion v2) throws IOException{
 		IOUtils.createFolder(toDirName);
-		IOUtils.writeSourceFile(toDirName+File.separator+"FILE_CHANGES.txt", getLLOCChanges(v1,v2));
+		IOUtils.writeSourceFile(toDirName,"FILE_CHANGES.txt", getLLOCChanges(v1,v2));
 		LinkedList<String> v1Files = getFileNames(v1);
 		LinkedList<String> v2Files = getFileNames(v2);
 		for(String file:v1Files){
 			if(v2Files.remove(file)){
 				SourceFileRecord v1File = v1.getFile(file);
 				SourceFileRecord v2File = v2.getFile(file);
-				exportChangeLabels(v1.getMetaData(), v2.getMetaData(),
+				exportChangeLabels(toDirName, v1.getMetaData(), v2.getMetaData(),
 						v1File.getLines(),v2File.getLines(), toDirName+File.separator+file);
 			}
 		}
