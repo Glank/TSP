@@ -134,6 +134,11 @@ public class Main{
 			System.out.println("Error adding file.");
 			return;
 		}
+		for(String fn:project.getFiles())
+			if(fn.equalsIgnoreCase(name)){
+				System.out.println("That file is already being monitored: see \"files\"");
+				return;
+			}
 		project.addFile(name);
 		saveProject();
 	}
@@ -154,6 +159,10 @@ public class Main{
 		}
 		System.out.print("Version number: ");
 		String number = in.nextLine();
+		if(project.getVersion(number)!=null){
+			System.out.println("That version already exists: see \"versions\"");
+			return;
+		}
 		System.out.print("Author name: ");
 		String author = in.nextLine();
 		System.out.print("Reason for commit: ");
@@ -222,8 +231,12 @@ public class Main{
 		System.out.print("Version: ");
 		String number = in.nextLine();
 		ProjectVersion version = project.getVersion(number);
-		System.out.println(version.getMetaData());
-		System.out.println("Total LLOC: "+ChangeCounterUtils.getLLOC(version));
+		if(version==null)
+			System.out.println("Invalid version number: see \"versions\"");
+		else{
+			System.out.println(version.getMetaData());
+			System.out.println("Total LLOC: "+ChangeCounterUtils.getLLOC(version));
+		}
 	}
 	public static void displayVersionChanges(){
 		if(project==null){
