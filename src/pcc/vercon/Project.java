@@ -39,9 +39,9 @@ public class Project implements java.io.Serializable{
 		sourceFileNames.add(filename);
 	}
 	
-	public void removeFile(String filename)
+	public boolean removeFile(String filename)
 	{
-		sourceFileNames.remove(filename);
+		return sourceFileNames.remove(filename);
 	}
 	
 	public ArrayList<String> getFiles()

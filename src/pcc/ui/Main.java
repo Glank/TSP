@@ -149,7 +149,8 @@ public class Main{
 		}
 		System.out.print("File name: ");
 		String name = in.nextLine();
-		project.removeFile(name);
+		if(!project.removeFile(name))
+			System.out.println("File not found.");
 		saveProject();
 	}
 	public static void commitNewVersion(){
@@ -251,10 +252,18 @@ public class Main{
 		}
 		System.out.print("First version: ");
 		String version1 = in.nextLine();
+		ProjectVersion v1 = project.getVersion(version1);
+		if(v1==null){
+			System.out.println("Invalid version number.");
+			return;
+		}
 		System.out.print("Last version: ");
 		String version2 = in.nextLine();
-		ProjectVersion v1 = project.getVersion(version1);
 		ProjectVersion v2 = project.getVersion(version2);
+		if(v2==null){
+			System.out.println("Invalid version number.");
+			return;
+		}
 		
 		String report = "";
 		if(type.matches("[sS]"))
