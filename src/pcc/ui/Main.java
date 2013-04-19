@@ -10,8 +10,8 @@ import pcc.vercon.ProjectVersion;
 
 
 public class Main{
-	private static Project project;
-	private static String projectName;
+	public static Project project;
+	public static String projectName;
 	private static Scanner in;
 	public static void main(String[] args){
 		//init resources
