@@ -2,9 +2,12 @@ package pcc.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Vector;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -44,9 +47,10 @@ public class ComponentList extends JPanel{
 	
 	private void updateGrid(){
 		grid = new JPanel();
-		grid.setLayout(new GridLayout(components.size(), 1));
-		for(Component component:components)
+		grid.setLayout(new VerticalFlowLayout());
+		for(Component component:components){
 			grid.add(component);
+		}
 		scroller.setViewportView(grid);
 	}
 }

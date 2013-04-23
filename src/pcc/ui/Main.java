@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import pcc.analysis.ChangeCounterUtils;
 import pcc.io.IOUtils;
 import pcc.vercon.Project;
@@ -12,15 +15,14 @@ import pcc.vercon.ProjectVersion;
 public class Main{
 	public static Project project;
 	public static String projectName;
+	public static PCCFrame frame;
 	private static Scanner in;
 	public static void main(String[] args){
 		//init resources
 		in = new Scanner(System.in);
-		//display the commands
-		displayCommands();
-		//ask for input until forced exit
-		while(true)
-			promptMainMenu();
+		frame = new PCCFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public static void openProject(){
 		System.out.print("Project name: ");
@@ -51,58 +53,6 @@ public class Main{
 			return;
 		}
 		saveProject();
-	}
-	public static void promptMainMenu(){
-		//request input
-		String input = in.nextLine();
-		if(input.equals("new"))
-			newProject();
-		else if(input.equals("open"))
-			openProject();
-		else if(input.equals("add"))
-			addFile();
-		else if(input.equals("rm"))
-			removeFile();
-		else if(input.equals("commit"))
-			commitNewVersion();
-		else if(input.equals("ecl"))
-			exportChangeLables();
-		else if(input.equals("files"))
-			displayAllFiles();
-		else if(input.equals("version"))
-			displayCurrentVersion();
-		else if(input.equals("versions"))
-			displayAllVersions();
-		else if(input.equals("data"))
-			displayVersionData();
-		else if(input.equals("change"))
-			displayVersionChanges();
-		else if(input.equals("exit"))
-			System.exit(0);
-		else if(input.equals("help"))
-			displayCommands();
-		else if(input.equals("save"))
-			saveProject();
-		else{
-			System.out.println("Invalid command entered.");
-			displayCommands();
-		}
-	}
-	private static void displayCommands(){
-		System.out.println("The following are the only valid commands:");
-		System.out.println("  new: Create a new project.");
-		System.out.println("  open: Open an existing project.");
-		System.out.println("  add: Add a file to the current project.");
-		System.out.println("  rm: Remove a file from the current project.");
-		System.out.println("  commit: Commit a new version of the projet.");
-		System.out.println("  ecl: Export Change Label Files.");
-		System.out.println("  files: Display all files in the current project.");
-		System.out.println("  version: Display the current project version.");
-		System.out.println("  versions: Display all versions of the current project.");
-		System.out.println("  data: Display data for a selected version.");
-		System.out.println("  change: Display verion changes.");
-		System.out.println("  exit: Close this program.");
-		System.out.println("  help: Display this data.");
 	}
 	public static void newProject(){
 		System.out.print("Project name: ");
@@ -142,15 +92,9 @@ public class Main{
 		project.addFile(name);
 		saveProject();
 	}
-	public static void removeFile(){
-		if(project==null){
-			System.out.println("Please open or create a project first.");
-			return;
-		}
-		System.out.print("File name: ");
-		String name = in.nextLine();
+	public static void removeFile(String name){
 		if(!project.removeFile(name))
-			System.out.println("File not found.");
+			JOptionPane.showMessageDialog(frame, "File Not Found!");
 		saveProject();
 	}
 	public static void commitNewVersion(){
