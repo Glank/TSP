@@ -151,13 +151,13 @@ public class ChangeCounterUtils{
 		int changed = countLLOCType(changes, ChangeType.CHANGED);
 		
 		//write change label header
-		output.append("/**\n");
-		output.append(" * From: "+version1Meta+"\n");
-		output.append(" * To:   "+version2Meta+"\n");
-		output.append(" * Added LLOC:   " + added +"\n");
-		output.append(" * Removed LLOC: " + removed +"\n");
-		output.append(" * Changed LLOC: " + changed +"\n");
-		output.append(" **/\n");
+		output.append("/**<br>");
+		output.append(" * From: "+version1Meta+"<br>");
+		output.append(" * To:   "+version2Meta+"<br>");
+		output.append(" * Added LLOC:   " + added +"<br>");
+		output.append(" * Removed LLOC: " + removed +"<br>");
+		output.append(" * Changed LLOC: " + changed +"<br>");
+		output.append(" **/<br>");
 		
 		//sort changes by line number
 		Collections.sort(changes);
@@ -170,7 +170,7 @@ public class ChangeCounterUtils{
 				currentChange = iterator.next();
 			//write changed lines
 			if(currentChange!=null && currentChange.lineNumber==i){
-				output.append(currentChange.getLineLabel()+"\n");
+				output.append(currentChange.getLineLabel()+"<br>");
 				//skip the next line from cur if it was an added line
 				if(currentChange.type==ChangeType.ADDED ||
 						currentChange.type==ChangeType.CHANGED)
@@ -180,7 +180,7 @@ public class ChangeCounterUtils{
 			//write unchanged lines
 			else if(i<cur.length){
 				
-				output.append(cur[i]+"\n");
+				output.append(cur[i]+"<br>");
 				i++;
 			}
 		}
@@ -207,10 +207,10 @@ public class ChangeCounterUtils{
 		int added = countLLOCType(changes, ChangeType.ADDED);
 		int removed = countLLOCType(changes, ChangeType.REMOVED);
 		int changed = countLLOCType(changes, ChangeType.CHANGED);
-		output.append("### "+f1.getName()+": "+added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed ###\n");
+		output.append("### "+f1.getName()+": "+added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed ###<br>");
 		for(Change change:changes){
 			if(isLLOC(change.line))
-				output.append(change.toString()+"\n");
+				output.append(change.toString()+"<br>");
 		}
 		return output.toString();
 	}
@@ -225,10 +225,10 @@ public class ChangeCounterUtils{
 				output.append(getLineChangesReport(v1File,v2File));
 			}
 			else
-				output.append("### "+ file + ": file removed ###\n");
+				output.append("### "+ file + ": file removed ###<br>");
 		}
 		for(String file:v2Files)
-			output.append("### "+ file+": file added ###\n");
+			output.append("### "+ file+": file added ###<br>");
 		return output.toString().trim();
 	}
 	private static boolean isLLOC(String line){
@@ -277,29 +277,29 @@ public class ChangeCounterUtils{
 				totalAdded+=added;
 				totalRemoved+=removed;
 				totalChanged+=changed;
-				output.append(added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed\n");
+				output.append(added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed<br>");
 			}
 			else{
 				int loc = getLLOC(v1.getFile(file).getLines());
 				totalRemoved+=loc;
-				output.append("file removed, " +loc+"LLOC\n");
+				output.append("file removed, " +loc+"LLOC<br>");
 			}
 		}
 		for(String file:v2Files){
 			int loc = getLLOC(v2.getFile(file).getLines());
 			totalAdded+=loc;
-			output.append(file+": file added, "+loc+"LLOC\n");
+			output.append(file+": file added, "+loc+"LLOC<br>");
 		}
 		//write total added and removed
-		output.append("Total LLOC Added:   " + totalAdded + "\n");
-		output.append("Total LLOC Removed: " + totalRemoved+ "\n");
+		output.append("Total LLOC Added:   " + totalAdded + "<br>");
+		output.append("Total LLOC Removed: " + totalRemoved+ "<br>");
 		output.append("Total LLOC Changed: " + totalChanged);
 		return output.toString();
 	}
 	public static String getLLOCChanges(ProjectVersion v1, ProjectVersion v2){
 		StringBuilder output = new StringBuilder();
-		output.append("Version "+v1.getNumber()+": "+getLLOC(v1)+"LLOC\n");
-		output.append("Version "+v2.getNumber()+": "+getLLOC(v2)+"LLOC\n");
+		output.append("Version "+v1.getNumber()+": "+getLLOC(v1)+"LLOC<br>");
+		output.append("Version "+v2.getNumber()+": "+getLLOC(v2)+"LLOC<br>");
 		output.append(getFileChanges(v1,v2));
 		return output.toString();
 	}
