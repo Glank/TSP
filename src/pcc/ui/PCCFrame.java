@@ -12,7 +12,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 
 public class PCCFrame extends JFrame{
 	private static final long serialVersionUID = -5411538418780791931L;
