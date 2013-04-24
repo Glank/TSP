@@ -30,8 +30,7 @@ public class Main{
 		try {
 			project = IOUtils.openProject(projectName+File.separator+"project.dat");
 		} catch (Throwable t){
-			t.printStackTrace();
-			System.out.println("Error opening project file.");
+			JOptionPane.showMessageDialog(null,"Error opening project file.");
 		}
 	}
 	private static void saveProject(){
@@ -44,7 +43,7 @@ public class Main{
 			IOUtils.saveProject(project, projectName+File.separator+"project.dat");
 		} catch (Throwable t) {
 			t.printStackTrace();
-			System.out.println("Error updating project file.");
+			JOptionPane.showMessageDialog(null,"Error updating project file.");
 		}
 	}
 	public static void explicitSave(){
