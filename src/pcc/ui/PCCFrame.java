@@ -120,9 +120,14 @@ public class PCCFrame extends JFrame{
 	public void update(){
 		//TODO
 		//reset fileList and versionList
-		fileList.removeAll();
-		for(String fileName:Main.project.getFiles())
-			fileList.add(new FileListItem(fileName, fileList));
+		if(Main.project!=null){
+			fileList.removeAll();
+			for(String fileName:Main.project.getFiles())
+				fileList.add(new FileListItem(fileName, fileList));
+			versionList.removeAll();
+			for(String number:Main.project.getVersionList())
+				versionList.add(new VersionListItem(number, this));
+		}
 		//clear report field
 	}
 }

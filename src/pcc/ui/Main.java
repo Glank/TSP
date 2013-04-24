@@ -57,7 +57,7 @@ public class Main{
 	public static void newProject(){
 		System.out.print("Project name: ");
 		projectName = in.nextLine();
-		if(!projectName.matches("[a-zA-Z0_9_]+"))
+		if(!projectName.matches("[a-zA-Z0-9_]+"))
 			System.out.println("Invalid name entered: letters and underscores only.");
 		else{
 			if((new File(projectName)).exists())
@@ -168,30 +168,25 @@ public class Main{
 		for(String v:project.getVersionList())
 			System.out.println(v);
 	}
-	public static void displayVersionData(){
+	public static String displayVersionData(String number){
 		if(project==null){
 			System.out.println("Please open or create a project first.");
-			return;
+			return "";
 		}
-		System.out.print("Version: ");
-		String number = in.nextLine();
 		ProjectVersion version = project.getVersion(number);
+		String ret = "";
 		if(version==null)
 			System.out.println("Invalid version number: see \"versions\"");
 		else{
-			System.out.println(version.getMetaData());
-			System.out.println("Total LLOC: "+ChangeCounterUtils.getLLOC(version));
+			ret+="<html>"+version.getMetaData();
+			ret+="<br>Total LLOC: "+ChangeCounterUtils.getLLOC(version);
+			ret+="</br></html>";
 		}
+		return ret;
 	}
-	public static void displayVersionChanges(){
+	public static void displayVersionChanges(boolean shortReport){
 		if(project==null){
 			System.out.println("Please open or create a project first.");
-			return;
-		}
-		System.out.print("[S]hort or [L]ong report? ");
-		String type = in.nextLine();
-		if(!type.matches("[sSlL]")){
-			System.out.println("Invalid report type.");
 			return;
 		}
 		System.out.print("First version: ");
@@ -210,7 +205,7 @@ public class Main{
 		}
 		
 		String report = "";
-		if(type.matches("[sS]"))
+		if(shortReport)
 			report = ChangeCounterUtils.getLLOCChanges(v1, v2);
 		else
 			report = ChangeCounterUtils.getLineChangesReport(v1, v2);

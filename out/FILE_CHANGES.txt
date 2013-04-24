@@ -1,7 +1,6 @@
-Version 1: 12LLOC
-Version 2: 13LLOC
-testFiles/File1.txt: 3LLOC added, 2LLOC removed
-testFiles/File2.txt: file removed, 5LLOC
-testFiles/File3.txt: file added, 5LLOC
-Total LLOC Added:   8
-Total LLOC Removed: 7
+Version 1: 8LLOC
+Version 2: 8LLOC
+testFiles/File1.txt: 1LLOC added, 1LLOC removed, 2LLOC changed
+Total LLOC Added:   1
+Total LLOC Removed: 1
+Total LLOC Changed: 2

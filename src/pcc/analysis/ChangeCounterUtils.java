@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import pcc.io.IOUtils;
 import pcc.test.integration.IOUtilsStub;
@@ -49,7 +50,8 @@ public class ChangeCounterUtils{
 		}
 		
 		//count changes
-		LinkedList<Change> changes = new LinkedList<Change>();
+		LinkedList<Change> added = new LinkedList<Change>();
+		Vector<Change> removed = new Vector<Change>();
 		for(String line:uniqueLines){
 			LinkedList<Integer> oldInstances = oldLines.get(line);
 			LinkedList<Integer> curInstances = curLines.get(line);
@@ -63,7 +65,7 @@ public class ChangeCounterUtils{
 				//find the old instance that is farthest from any current instance
 				i = getFurthestInstance(oldInstances, curInstances);
 				int lineNumber = oldInstances.remove(i);
-				changes.add(new Change(ChangeType.REMOVED, line, lineNumber));
+				removed.add(new Change(ChangeType.REMOVED, line, lineNumber));
 			}
 			//count added changes
 			//TODO: make more efficient
@@ -71,9 +73,39 @@ public class ChangeCounterUtils{
 				//find the old instance that is farthest from any current instance
 				i = getFurthestInstance(curInstances, oldInstances);
 				int lineNumber = curInstances.remove(i);
-				changes.add(new Change(ChangeType.ADDED, line, lineNumber));
+				added.add(new Change(ChangeType.ADDED, line, lineNumber));
 			}
 		}
+		
+		//combine added & removed change pairs with similar strings
+		final double MAX_DIFF = .5;
+		LinkedList<Change> changes = new LinkedList<Change>();
+	
+		for(int a = 0; a < added.size(); a++){
+			Change addition = added.get(a);
+			if(removed.isEmpty())
+				break;
+			int best = 0;
+			double bestDiff =  StringDistanceUtil.getDiff(
+					removed.get(0).line, addition.line);
+			for(i = 1; i < removed.size(); i++){
+				double diff = StringDistanceUtil.getDiff(
+						removed.get(i).line, addition.line);
+				if(diff<bestDiff){
+					best = i;
+					bestDiff = diff;
+				}
+			}
+			if(bestDiff<MAX_DIFF){
+				changes.add(new Change(ChangeType.CHANGED, addition.line, addition.lineNumber));
+				removed.remove(best);
+				added.remove(a--);
+			}
+		}
+		for(Change change:added)
+			changes.add(change);
+		for(Change change:removed)
+			changes.add(change);
 		
 		return changes;
 	}
@@ -116,6 +148,7 @@ public class ChangeCounterUtils{
 		StringBuilder output = new StringBuilder();
 		int added = countLLOCType(changes, ChangeType.ADDED);
 		int removed = countLLOCType(changes, ChangeType.REMOVED);
+		int changed = countLLOCType(changes, ChangeType.CHANGED);
 		
 		//write change label header
 		output.append("/**\n");
@@ -123,6 +156,7 @@ public class ChangeCounterUtils{
 		output.append(" * To:   "+version2Meta+"\n");
 		output.append(" * Added LLOC:   " + added +"\n");
 		output.append(" * Removed LLOC: " + removed +"\n");
+		output.append(" * Changed LLOC: " + changed +"\n");
 		output.append(" **/\n");
 		
 		//sort changes by line number
@@ -138,12 +172,14 @@ public class ChangeCounterUtils{
 			if(currentChange!=null && currentChange.lineNumber==i){
 				output.append(currentChange.getLineLabel()+"\n");
 				//skip the next line from cur if it was an added line
-				if(currentChange.type==ChangeType.ADDED)
+				if(currentChange.type==ChangeType.ADDED ||
+						currentChange.type==ChangeType.CHANGED)
 					i++;
 				currentChange = null;
 			}
 			//write unchanged lines
 			else if(i<cur.length){
+				
 				output.append(cur[i]+"\n");
 				i++;
 			}
@@ -170,7 +206,8 @@ public class ChangeCounterUtils{
 		StringBuilder output = new StringBuilder();
 		int added = countLLOCType(changes, ChangeType.ADDED);
 		int removed = countLLOCType(changes, ChangeType.REMOVED);
-		output.append("### "+f1.getName()+": "+added + "LLOC added, "+removed+"LLOC removed ###\n");
+		int changed = countLLOCType(changes, ChangeType.CHANGED);
+		output.append("### "+f1.getName()+": "+added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed ###\n");
 		for(Change change:changes){
 			if(isLLOC(change.line))
 				output.append(change.toString()+"\n");
@@ -226,6 +263,7 @@ public class ChangeCounterUtils{
 		LinkedList<String> v2Files = getFileNames(v2);
 		int totalAdded = 0;
 		int totalRemoved = 0;
+		int totalChanged = 0;
 		for(String file:v1Files){
 			output.append(file + ": ");
 			if(v2Files.remove(file)){
@@ -235,9 +273,11 @@ public class ChangeCounterUtils{
 				LinkedList<Change> changes = getChanges(v1File.getLines(), v2File.getLines());
 				int added = countLLOCType(changes, ChangeType.ADDED);
 				int removed = countLLOCType(changes, ChangeType.REMOVED);
+				int changed = countLLOCType(changes, ChangeType.CHANGED);
 				totalAdded+=added;
 				totalRemoved+=removed;
-				output.append(added + "LLOC added, "+removed+"LLOC removed\n");
+				totalChanged+=changed;
+				output.append(added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed\n");
 			}
 			else{
 				int loc = getLLOC(v1.getFile(file).getLines());
@@ -252,7 +292,8 @@ public class ChangeCounterUtils{
 		}
 		//write total added and removed
 		output.append("Total LLOC Added:   " + totalAdded + "\n");
-		output.append("Total LLOC Removed: " + totalRemoved);
+		output.append("Total LLOC Removed: " + totalRemoved+ "\n");
+		output.append("Total LLOC Changed: " + totalChanged);
 		return output.toString();
 	}
 	public static String getLLOCChanges(ProjectVersion v1, ProjectVersion v2){

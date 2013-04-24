@@ -18,6 +18,8 @@ public class Change implements Comparable<Change>{
 			return "/*"+type+" "+(lineNumber+1) +"*/"+line;
 		else if(type==ChangeType.REMOVED)
 			return "//"+toString();
+		else if(type==ChangeType.CHANGED)
+			return "/*"+type+" "+(lineNumber+1) +"*/"+line;
 		throw new RuntimeException("Invalid Change Type");
 	}
 	
