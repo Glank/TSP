@@ -27,11 +27,14 @@ public class Main{
 	public static void openProject(){
 		projectName	=	JOptionPane.showInputDialog(frame, "Project name: ");
 
-		try {
-			project = IOUtils.openProject(projectName+File.separator+"project.dat");
-			JOptionPane.showMessageDialog(frame, "Opened "+ projectName);
-		} catch (Throwable t){
-			JOptionPane.showMessageDialog(null,"Error opening project file.");
+		if (null != projectName)
+		{
+			try {
+				project = IOUtils.openProject(projectName+File.separator+"project.dat");
+				JOptionPane.showMessageDialog(frame, "Opened "+ projectName);
+			} catch (Throwable t){
+				JOptionPane.showMessageDialog(null,"Error opening project file.");
+			}
 		}
 	}
 	private static void saveProject(){
