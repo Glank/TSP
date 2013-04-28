@@ -45,7 +45,7 @@ public class Main{
 			if(!dir.exists())
 				IOUtils.createFolder(projectName);
 			IOUtils.saveProject(project, projectName+File.separator+"project.dat");
-			JOptionPane.showMessageDialog(frame, "Saved "+ projectName);
+			//JOptionPane.showMessageDialog(frame, "Saved "+ projectName);
 		} catch (Throwable t) {
 			t.printStackTrace();
 			JOptionPane.showMessageDialog(null,"Error updating project file.");
