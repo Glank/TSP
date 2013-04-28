@@ -31,6 +31,7 @@ public class Main{
 		{
 			try {
 				project = IOUtils.openProject(projectName+File.separator+"project.dat");
+				project.setProjectName(projectName);
 				JOptionPane.showMessageDialog(frame, "Opened "+ projectName);
 			} catch (Throwable t){
 				JOptionPane.showMessageDialog(null,"Error opening project file.");
@@ -71,6 +72,7 @@ public class Main{
 					System.out.println("A folder/file with the given name already exists.");
 				else{
 					project = new Project();
+					project.setProjectName(projectName);
 					saveProject();
 					JOptionPane.showMessageDialog(frame, "Created project "+ projectName);
 				}
@@ -88,14 +90,14 @@ public class Main{
 		if (null != name)
 		{
 			try{
-				File file = new File(name);
+				File file = new File(projectName+File.separator+name);
 				if(!file.exists())
 				{
 					throw new RuntimeException();
 				}
 			}
 			catch(Throwable t){
-				JOptionPane.showMessageDialog(frame, "Error adding file.. ");
+				JOptionPane.showMessageDialog(frame, "Error adding file.. check if file exists");
 				return;
 			}
 			for(String fn:project.getFiles())
