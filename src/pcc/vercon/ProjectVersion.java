@@ -1,4 +1,5 @@
 package pcc.vercon;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,19 +15,21 @@ public class ProjectVersion implements java.io.Serializable
 	private String m_author;
 	private Date m_dateCommited;
 	private ArrayList<SourceFileRecord> m_files;
+	private String m_projectName;
 	
-	public  ProjectVersion(String number, String author, String reason, ArrayList<String> filenames) throws IOException
+	public  ProjectVersion(String p_projectName, String number, String author, String reason, ArrayList<String> filenames) throws IOException
 	{
 		m_number		=	(null == number) ? "None" : number;
 		m_author		=	(null == author) ? "None": author;
 		m_reason		=	(null == reason) ? "None" : reason;
 		m_files			=	new ArrayList<SourceFileRecord>();
 		m_dateCommited	=	new Date();
+		m_projectName	=	p_projectName;
 		
 		for (int ii = 0; ii < filenames.size(); ii ++)
 		{
 			
-			String[] lines = IOUtils.openSourceFile(filenames.get(ii));
+			String[] lines = IOUtils.openSourceFile(m_projectName + File.separator + filenames.get(ii));
 			SourceFileRecord	srcFileRec	=	new SourceFileRecord (lines, filenames.get(ii));
 			m_files.add(srcFileRec);
 		}
