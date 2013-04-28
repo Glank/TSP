@@ -53,12 +53,16 @@ public class PCCEventHandler implements ActionListener{
 	}
 	
 	private void shortReport(){
-		Main.displayVersionChanges(true);
+		String report = Main.displayVersionChanges(true);
+		if(report!=null)
+			parent.setReport(report);
 		parent.update();
 	}
 
 	private void longReport(){
-		Main.displayVersionChanges(false);
+		String report = Main.displayVersionChanges(false);
+		if(report!=null)
+			parent.setReport(report);
 		parent.update();
 	}
 	

@@ -60,6 +60,7 @@ public class Main{
 				JOptionPane.showMessageDialog(null,"A folder/file with the given name already exists.");
 			else{
 				project = new Project();
+				frame.setReport("");
 				saveProject();
 			}
 		}
@@ -72,6 +73,8 @@ public class Main{
 		JFileChooser jfc = new JFileChooser();
 		int result = jfc.showOpenDialog(null);
 		if(result==JFileChooser.CANCEL_OPTION)
+			return;
+		else if(jfc.getSelectedFile()==null)
 			return;
 		File file = jfc.getSelectedFile();
 		if(!file.exists()){
@@ -130,6 +133,7 @@ public class Main{
 			return;
 		}
 		JFileChooser jfc = new JFileChooser();
+		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		jfc.setFileFilter(new FileFilter(){
 			@Override
 			public boolean accept(File f) {
@@ -142,6 +146,8 @@ public class Main{
 		});
 		int result = jfc.showSaveDialog(null);
 		if(result==JOptionPane.CANCEL_OPTION)
+			return;
+		else if(jfc.getSelectedFile()==null)
 			return;
 		String dir = jfc.getSelectedFile().getAbsolutePath();
 		try {
@@ -156,6 +162,7 @@ public class Main{
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
 		}
+		System.out.println("Done Exporting Change Labels");
 	}
 	public static void displayAllFiles(){
 		if(project==null){
@@ -196,28 +203,28 @@ public class Main{
 		}
 		return ret;
 	}
-	public static void displayVersionChanges(boolean shortReport){
+	public static String displayVersionChanges(boolean shortReport){
 		if(project==null){
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
-			return;
+			return null;
 		}
 		String version1 = JOptionPane.showInputDialog("First version: ");
 		ProjectVersion v1 = project.getVersion(version1);
 		if(v1==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
-			return;
+			return null;
 		}
 		String version2 = JOptionPane.showInputDialog("Last version: ");
 		ProjectVersion v2 = project.getVersion(version2);
 		if(v2==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
-			return;
+			return null;
 		}
 		String report = "";
 		if(shortReport)
-			report = ChangeCounterUtils.getLLOCChanges(v1, v2);
+			report = ChangeCounterUtils.getLLOCChanges(v1,v2,true);
 		else
 			report = ChangeCounterUtils.getLineChangesReport(v1, v2);
-		System.out.println(report);
+		return report;
 	}
 }

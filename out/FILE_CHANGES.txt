@@ -1,1 +1,3 @@
-Version 1: 12LLOC<br>Version 3: 8LLOC<br>testFiles/File1.txt: 3LLOC added, 2LLOC removed, 0LLOC changed<br>testFiles/File2.txt: file removed, 5LLOC<br>Total LLOC Added:   3<br>Total LLOC Removed: 7<br>Total LLOC Changed: 0
+Version 1: 12LLOC
+Version 4: 23LLOC
+testFiles/File1.txt: 3LLOC added, 2LLOC removed, 2LLOC changed<br>testFiles/File2.txt: 0LLOC added, 0LLOC removed, 0LLOC changed<br>/home/ernest/export.txt: file added, 10LLOC<br>Total LLOC Added:   13<br>Total LLOC Removed: 2<br>Total LLOC Changed: 2

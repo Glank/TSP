@@ -78,7 +78,7 @@ public class ChangeCounterUtils{
 		}
 		
 		//combine added & removed change pairs with similar strings
-		final double MAX_DIFF = .5;
+		final double MAX_DIFF = .8;
 		LinkedList<Change> changes = new LinkedList<Change>();
 	
 		for(int a = 0; a < added.size(); a++){
@@ -151,13 +151,13 @@ public class ChangeCounterUtils{
 		int changed = countLLOCType(changes, ChangeType.CHANGED);
 		
 		//write change label header
-		output.append("/**<br>");
-		output.append(" * From: "+version1Meta+"<br>");
-		output.append(" * To:   "+version2Meta+"<br>");
-		output.append(" * Added LLOC:   " + added +"<br>");
-		output.append(" * Removed LLOC: " + removed +"<br>");
-		output.append(" * Changed LLOC: " + changed +"<br>");
-		output.append(" **/<br>");
+		output.append("/**\n");
+		output.append(" * From: "+version1Meta+"\n");
+		output.append(" * To:   "+version2Meta+"\n");
+		output.append(" * Added LLOC:   " + added +"\n");
+		output.append(" * Removed LLOC: " + removed +"\n");
+		output.append(" * Changed LLOC: " + changed +"\n");
+		output.append(" **/\n");
 		
 		//sort changes by line number
 		Collections.sort(changes);
@@ -169,8 +169,8 @@ public class ChangeCounterUtils{
 			if(iterator.hasNext() && currentChange==null)
 				currentChange = iterator.next();
 			//write changed lines
-			if(currentChange!=null && currentChange.lineNumber==i){
-				output.append(currentChange.getLineLabel()+"<br>");
+			if(currentChange!=null && currentChange.lineNumber<=i){
+				output.append(currentChange.getLineLabel()+"\n");
 				//skip the next line from cur if it was an added line
 				if(currentChange.type==ChangeType.ADDED ||
 						currentChange.type==ChangeType.CHANGED)
@@ -180,16 +180,15 @@ public class ChangeCounterUtils{
 			//write unchanged lines
 			else if(i<cur.length){
 				
-				output.append(cur[i]+"<br>");
+				output.append(cur[i]+"\n");
 				i++;
 			}
 		}
-		
 		IOUtils.writeSourceFile(dir, labelFileName, output.toString());
 	}
 	public static void exportChangeLabels(String toDirName, ProjectVersion v1, ProjectVersion v2) throws IOException{
 		IOUtils.createFolder(toDirName);
-		IOUtils.writeSourceFile(toDirName,"FILE_CHANGES.txt", getLLOCChanges(v1,v2));
+		IOUtils.writeSourceFile(toDirName,"FILE_CHANGES.txt", getLLOCChanges(v1,v2,false));
 		LinkedList<String> v1Files = getFileNames(v1);
 		LinkedList<String> v2Files = getFileNames(v2);
 		for(String file:v1Files){
@@ -296,10 +295,11 @@ public class ChangeCounterUtils{
 		output.append("Total LLOC Changed: " + totalChanged);
 		return output.toString();
 	}
-	public static String getLLOCChanges(ProjectVersion v1, ProjectVersion v2){
+	public static String getLLOCChanges(ProjectVersion v1, ProjectVersion v2, boolean html){
+		String newLine = html?"<br>":"\n";
 		StringBuilder output = new StringBuilder();
-		output.append("Version "+v1.getNumber()+": "+getLLOC(v1)+"LLOC<br>");
-		output.append("Version "+v2.getNumber()+": "+getLLOC(v2)+"LLOC<br>");
+		output.append("Version "+v1.getNumber()+": "+getLLOC(v1)+"LLOC"+newLine);
+		output.append("Version "+v2.getNumber()+": "+getLLOC(v2)+"LLOC"+newLine);
 		output.append(getFileChanges(v1,v2));
 		return output.toString();
 	}
