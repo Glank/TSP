@@ -61,7 +61,6 @@ public class PCCFrame extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(file);
 		menuBar.add(analysis);
-		System.out.println("Reached.");
 		setJMenuBar(menuBar);
 	}
 	
