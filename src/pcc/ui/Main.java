@@ -90,10 +90,12 @@ public class Main{
 			try{
 				File file = new File(name);
 				if(!file.exists())
+				{
 					throw new RuntimeException();
+				}
 			}
 			catch(Throwable t){
-				System.out.println("Error adding file.");
+				JOptionPane.showMessageDialog(frame, "Error adding file.. ");
 				return;
 			}
 			for(String fn:project.getFiles())
