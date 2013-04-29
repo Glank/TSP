@@ -256,7 +256,8 @@ public class ChangeCounterUtils{
 		return names;
 	}
 	//returns a report of the file changes between two versions
-	private static String getFileChanges(ProjectVersion v1, ProjectVersion v2){
+	private static String getFileChanges(ProjectVersion v1, ProjectVersion v2, boolean html){
+		String lineEnd = html?"<br>":"\n";
 		StringBuilder output = new StringBuilder();
 		LinkedList<String> v1Files = getFileNames(v1);
 		LinkedList<String> v2Files = getFileNames(v2);
@@ -276,22 +277,22 @@ public class ChangeCounterUtils{
 				totalAdded+=added;
 				totalRemoved+=removed;
 				totalChanged+=changed;
-				output.append(added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed<br>");
+				output.append(added + "LLOC added, "+removed+"LLOC removed, "+changed+"LLOC changed"+lineEnd);
 			}
 			else{
 				int loc = getLLOC(v1.getFile(file).getLines());
 				totalRemoved+=loc;
-				output.append("file removed, " +loc+"LLOC<br>");
+				output.append("file removed, " +loc+"LLOC"+lineEnd);
 			}
 		}
 		for(String file:v2Files){
 			int loc = getLLOC(v2.getFile(file).getLines());
 			totalAdded+=loc;
-			output.append(file+": file added, "+loc+"LLOC<br>");
+			output.append(file+": file added, "+loc+"LLOC"+lineEnd);
 		}
 		//write total added and removed
-		output.append("Total LLOC Added:   " + totalAdded + "<br>");
-		output.append("Total LLOC Removed: " + totalRemoved+ "<br>");
+		output.append("Total LLOC Added:   " + totalAdded + lineEnd);
+		output.append("Total LLOC Removed: " + totalRemoved+ lineEnd);
 		output.append("Total LLOC Changed: " + totalChanged);
 		return output.toString();
 	}
@@ -300,7 +301,7 @@ public class ChangeCounterUtils{
 		StringBuilder output = new StringBuilder();
 		output.append("Version "+v1.getNumber()+": "+getLLOC(v1)+"LLOC"+newLine);
 		output.append("Version "+v2.getNumber()+": "+getLLOC(v2)+"LLOC"+newLine);
-		output.append(getFileChanges(v1,v2));
+		output.append(getFileChanges(v1,v2,html));
 		return output.toString();
 	}
 }
