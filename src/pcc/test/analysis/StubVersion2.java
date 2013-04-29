@@ -13,7 +13,7 @@ public class StubVersion2 extends ProjectVersion {
 	StubFile4 stubFileC = new StubFile4();
 
 	public StubVersion2() throws IOException {
-		super("", "", "", new ArrayList<String>());
+		super("stubversion", "", "", "", new ArrayList<String>());
 	}
 	
 	@Override

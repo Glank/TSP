@@ -25,7 +25,15 @@ public class Main{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public static void openProject(){
+<<<<<<< HEAD
 		projectName = JOptionPane.showInputDialog("Project name: ");
+		try {
+			project = IOUtils.openProject(projectName+File.separator+"project.dat");
+		} catch (Throwable t){
+			JOptionPane.showMessageDialog(null,"Error opening project file.");
+=======
+		projectName	=	JOptionPane.showInputDialog(frame, "Project name: ");
+
 		if (null != projectName)
 		{
 			try {
@@ -35,6 +43,7 @@ public class Main{
 			} catch (Throwable t){
 				JOptionPane.showMessageDialog(null,"Error opening project file.");
 			}
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 		}
 	}
 	private static void saveProject(){
@@ -58,26 +67,41 @@ public class Main{
 		saveProject();
 	}
 	public static void newProject(){
+<<<<<<< HEAD
 		projectName = JOptionPane.showInputDialog("Project name: ");
+		if(!projectName.matches("[a-zA-Z0-9_]+"))
+			JOptionPane.showMessageDialog(null,"Invalid name entered: letters and underscores only.");
+		else{
+			if((new File(projectName)).exists())
+				JOptionPane.showMessageDialog(null,"A folder/file with the given name already exists.");
+			else{
+				project = new Project();
+				frame.setReport("");
+				saveProject();
+=======
+		
+		projectName	=	JOptionPane.showInputDialog(frame, "Project name: ");
 		
 		if (null != projectName)
 		{
 			if(!projectName.matches("[a-zA-Z0-9_]+"))
-			JOptionPane.showMessageDialog(null,"Invalid name entered: letters and underscores only.");
+				System.out.println("Invalid name entered: letters and underscores only.");
 			else{
 				if((new File(projectName)).exists())
-				JOptionPane.showMessageDialog(null,"A folder/file with the given name already exists.");
+					System.out.println("A folder/file with the given name already exists.");
 				else{
 					project = new Project();
-				frame.setReport("");
+					project.setProjectName(projectName);
 					saveProject();
 					JOptionPane.showMessageDialog(frame, "Created project "+ projectName);
 				}
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 			}
 		}
 	}
 	public static void addFile(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
 			return;
 		}
@@ -90,19 +114,46 @@ public class Main{
 		File file = jfc.getSelectedFile();
 		if(!file.exists()){
 			JOptionPane.showMessageDialog(null,"Error adding file.");
-			}
-				return;
-			}
+			return;
+		}
 		for(String fn:project.getFiles()){
 			File ofile = new File(fn);
 			if(file.equals(ofile)){
 				JOptionPane.showMessageDialog(null,"That file is already being monitored: see \"files\"");
-					return;
-				}
+				return;
+			}
 		}
 		project.addFile(file.getAbsolutePath());
+		saveProject();
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+			return;
+		}
+		
+		String name = JOptionPane.showInputDialog(frame, "File name: "); 
+		
+		if (null != name)
+		{
+			try{
+				File file = new File(projectName+File.separator+name);
+				if(!file.exists())
+				{
+					throw new RuntimeException();
+				}
+			}
+			catch(Throwable t){
+				JOptionPane.showMessageDialog(frame, "Error adding file.. check if file exists");
+				return;
+			}
+			for(String fn:project.getFiles())
+				if(fn.equalsIgnoreCase(name)){
+					JOptionPane.showMessageDialog(frame, "That file is already being monitored: see \"files\"");
+					return;
+				}
+			project.addFile(name);
 			saveProject();
 		}
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 	}
 	
 	public static void removeFile(String name){
@@ -113,33 +164,54 @@ public class Main{
 	
 	public static void commitNewVersion(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
 			return;
 		}
 		String number = JOptionPane.showInputDialog("Version number: ");
+		if(project.getVersion(number)!=null){
+			JOptionPane.showMessageDialog(null,"That version already exists: see \"versions\"");
+			return;
+		}
+		String author = JOptionPane.showInputDialog("Author name: ");
+		String reason = JOptionPane.showInputDialog("Reason for commit: ");
+		try {
+			project.commit(number, author, reason);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Error commiting source files.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+			return;
+		}
+		
+		String number = JOptionPane.showInputDialog(frame, "Version number: ");
 		
 		if (null != number)
 		{
 			if(project.getVersion(number)!=null){
-			JOptionPane.showMessageDialog(null,"That version already exists: see \"versions\"");
+				JOptionPane.showMessageDialog(frame, "That version already exists: see \"versions\"");
 				return;
 			}
-		String author = JOptionPane.showInputDialog("Author name: ");
-		String reason = JOptionPane.showInputDialog("Reason for commit: ");
+			String author = JOptionPane.showInputDialog(frame, "Author name: ");
+			if (null != author)
+			{
+				String reason = JOptionPane.showInputDialog(frame, "Reason for commit: ");
 				if (null != reason)
 				{
 					try {
 						project.commit(number, author, reason);
 					} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error commiting source files.");
+						JOptionPane.showMessageDialog(frame, "Error commiting source files.");
 					}
 					saveProject();
 				}
 			}
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 		}
 	}
 	public static void exportChangeLables(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
 			return;
 		}
@@ -173,26 +245,57 @@ public class Main{
 		else if(jfc.getSelectedFile()==null)
 			return;
 		String dir = jfc.getSelectedFile().getAbsolutePath();
-					try {
-						if(IOUtils.fileExists(dir)){
+		try {
+			if(IOUtils.fileExists(dir)){
 				int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete all files in this directory?");
 				if(response!=JOptionPane.YES_OPTION)
+					return;
+				IOUtils.deleteFolder(dir);
+			}
+			ChangeCounterUtils.exportChangeLabels(dir,
+					project.getVersion(version1), project.getVersion(version2));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+			return;
+		}
+		String version1 = 	JOptionPane.showInputDialog(frame, "First version: ");
+		
+		if (null != version1)
+		{
+	
+			String version2 = 	JOptionPane.showInputDialog(frame, "Last version: ");
+			if (null != version2)
+			{
+				String dir = JOptionPane.showInputDialog(frame, "Output directory: ");;
+				if (null != dir)
+				{
+					try {
+						if(IOUtils.fileExists(dir)){
+							if (JOptionPane.YES_OPTION != (JOptionPane.showConfirmDialog(frame, "Are you sure you want to delete all files in this directory? ")))
 								return;
 							IOUtils.deleteFolder(dir);
 						}
 						ChangeCounterUtils.exportChangeLabels(dir,
 								project.getVersion(version1), project.getVersion(version2));
 					} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(frame, "Error exporting change labels.");
 					}
 				}
 			}
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 		}
 		System.out.println("Done Exporting Change Labels");
 	}
 	public static void displayAllFiles(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 			return;
 		}
 		
@@ -206,7 +309,11 @@ public class Main{
 	}
 	public static void displayCurrentVersion(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 			return;
 		}
 		//System.out.println(project.getCurrentVersion());
@@ -216,7 +323,11 @@ public class Main{
 	}
 	public static void displayAllVersions(){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 			return;
 		}
 		
@@ -230,13 +341,21 @@ public class Main{
 	
 	public static String displayVersionData(String number){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 			return "";
 		}
 		ProjectVersion version = project.getVersion(number);
 		String ret = "";
 		if(version==null)
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Invalid version number: see \"versions\"");
+=======
+			JOptionPane.showMessageDialog(frame, "Invalid version number: see \"versions\"");
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 		else{
 			ret+="<html>"+version.getMetaData();
 			ret+="<br>Total LLOC: "+ChangeCounterUtils.getLLOC(version);
@@ -246,6 +365,7 @@ public class Main{
 	}
 	public static String displayVersionChanges(boolean shortReport){
 		if(project==null){
+<<<<<<< HEAD
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
 			return null;
 		}
@@ -260,14 +380,36 @@ public class Main{
 		if(v2==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
 			return null;
+=======
+			JOptionPane.showMessageDialog(frame, "Please open or create a project first.");
+			return;
+		}
+		
+		String version1 = JOptionPane.showInputDialog(frame, "First version: ");
+		ProjectVersion v1 = project.getVersion(version1);
+		if(v1==null){
+			JOptionPane.showMessageDialog(frame, "Invalid version number.");
+			return;
+		}
+		
+		String version2 = JOptionPane.showInputDialog(frame, "Last version: ");
+		ProjectVersion v2 = project.getVersion(version2);
+		if(v2==null){
+			JOptionPane.showMessageDialog(frame, "Invalid version number.");
+			return;
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 		}
 		String report = "";
 		if(shortReport)
 			report = ChangeCounterUtils.getLLOCChanges(v1,v2,true);
 		else
 			report = ChangeCounterUtils.getLineChangesReport(v1, v2);
+<<<<<<< HEAD
 		return report;
+=======
+		//System.out.println(report);
 		
 		frame.setReport(report);
+>>>>>>> 4782ad6c123882fd609a9bc1e94dcd1742c8d91d
 	}
 }

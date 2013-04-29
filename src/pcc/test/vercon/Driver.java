@@ -22,7 +22,7 @@ public class Driver {
 		filesAndLines.put(filenames.get(1), blines);
 
 
-		ProjectVersion version1 = new ProjectVersion ("1","me", "testing", filenames);
+		ProjectVersion version1 = new ProjectVersion ("testing", "1","me", "testing", filenames);
 		//version1.setLinesForFiles(filesAndLines);
 
 		// different lines for version 2
@@ -33,7 +33,7 @@ public class Driver {
 		filesAndLines.put(filenames.get(1), blinesAdded);
 
 		
-		ProjectVersion version2 = new ProjectVersion ("2","me", "testing 2", filenames);
+		ProjectVersion version2 = new ProjectVersion ("testing", "2","me", "testing 2", filenames);
 		//version2.setLinesForFiles(filesAndLines);
 		
 		System.out.println("### Export Change Lables ###");
