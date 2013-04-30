@@ -1,7 +1,6 @@
 package pcc.ui;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -29,9 +28,8 @@ public class Main{
 		if (null != projectName){
 			try {
 				project = IOUtils.openProject(projectName+File.separator+"project.dat");
-				project.setProjectName(projectName);
 			} catch (Throwable t){
-				JOptionPane.showMessageDialog(null,"Error opening project file.");
+				JOptionPane.showMessageDialog(frame,"Error opening project file.");
 			}
 		}
 	}
@@ -46,7 +44,7 @@ public class Main{
 			IOUtils.saveProject(project, projectName+File.separator+"project.dat");
 			//JOptionPane.showMessageDialog(frame, "Saved "+ projectName);
 		} catch (Throwable t) {
-			JOptionPane.showMessageDialog(null,"Error updating project file.");
+			JOptionPane.showMessageDialog(frame,"Error updating project file.");
 		}
 	}
 	
@@ -77,26 +75,30 @@ public class Main{
 	}
 	public static void addFile(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
-		JFileChooser jfc = new JFileChooser();
-		int result = jfc.showOpenDialog(null);
+		JFileChooser jfc = new JFileChooser(new File("."));
+		int result = jfc.showOpenDialog(frame);
 		if(result==JFileChooser.CANCEL_OPTION)
 			return;
 		else if(jfc.getSelectedFile()==null)
 			return;
 		File file = jfc.getSelectedFile();
-		if(!file.exists()){
+		if(file.exists()){
 			for(String fn:project.getFiles()){
 				File ofile = new File(fn);
 				if(file.equals(ofile)){
-					JOptionPane.showMessageDialog(null,"That file is already being monitored: see \"files\"");
+					JOptionPane.showMessageDialog(frame,"That file is already being monitored: see \"files\"");
 					return;
 				}
 			}
+			System.out.println("Adding File");
 			project.addFile(file.getAbsolutePath());
 			saveProject();
+		}
+		else{
+			JOptionPane.showMessageDialog(frame, "Cannot add file that does not exist.");
 		}
 	}
 	
@@ -108,7 +110,7 @@ public class Main{
 	
 	public static void commitNewVersion(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
 		String number = JOptionPane.showInputDialog("Version number: ");
@@ -116,7 +118,7 @@ public class Main{
 		if (null != number)
 		{
 			if(project.getVersion(number)!=null){
-			JOptionPane.showMessageDialog(null,"That version already exists: see \"versions\"");
+			JOptionPane.showMessageDialog(frame,"That version already exists: see \"versions\"");
 				return;
 			}
 			String author = JOptionPane.showInputDialog("Author name: ");
@@ -127,9 +129,9 @@ public class Main{
 			{
 				try {
 					project.commit(number, author, reason);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null,"Error commiting source files.");
 					saveProject();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(frame,"Error commiting source files.");
 				}
 			}
 		}
@@ -137,7 +139,7 @@ public class Main{
 	
 	public static void exportChangeLables(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
 		String version1 = JOptionPane.showInputDialog("First version: ");
@@ -145,7 +147,7 @@ public class Main{
 			return;
 		ProjectVersion v1 = project.getVersion(version1);
 		if(v1==null){
-			JOptionPane.showMessageDialog(null,"Invalid version number.");
+			JOptionPane.showMessageDialog(frame,"Invalid version number.");
 			return;
 		}
 		String version2 = JOptionPane.showInputDialog("Last version: ");
@@ -153,10 +155,10 @@ public class Main{
 			return;
 		ProjectVersion v2 = project.getVersion(version2);
 		if(v2==null){
-			JOptionPane.showMessageDialog(null,"Invalid version number.");
+			JOptionPane.showMessageDialog(frame,"Invalid version number.");
 			return;
 		}
-		JFileChooser jfc = new JFileChooser();
+		JFileChooser jfc = new JFileChooser(new File("."));
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		jfc.setFileFilter(new FileFilter(){
 			@Override
@@ -176,7 +178,7 @@ public class Main{
 		String dir = jfc.getSelectedFile().getAbsolutePath();
 		try {
 			if(IOUtils.fileExists(dir)){
-				int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete all files in this directory?");
+				int response = JOptionPane.showConfirmDialog(frame,"Are you sure you want to delete all files in this directory?");
 					if(response!=JOptionPane.YES_OPTION)
 						return;
 				IOUtils.deleteFolder(dir);
@@ -184,12 +186,12 @@ public class Main{
 			ChangeCounterUtils.exportChangeLabels(dir,
 					project.getVersion(version1), project.getVersion(version2));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
+			JOptionPane.showMessageDialog(frame,"Error exporting change labels.");
 		}
 	}
 	public static void displayAllFiles(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
 		
@@ -203,7 +205,7 @@ public class Main{
 	}
 	public static void displayCurrentVersion(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
 		//System.out.println(project.getCurrentVersion());
@@ -213,7 +215,7 @@ public class Main{
 	}
 	public static void displayAllVersions(){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return;
 		}
 		
@@ -227,15 +229,15 @@ public class Main{
 	
 	public static String displayVersionData(String number){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return "";
 		}
 		ProjectVersion version = project.getVersion(number);
 		String ret = "";
 		if(version==null)
-			JOptionPane.showMessageDialog(null,"Invalid version number: see \"versions\"");
+			JOptionPane.showMessageDialog(frame,"Invalid version number: see \"versions\"");
 		else{
-			ret+="<html>"+version.getMetaData();
+			ret+="<html>"+version.getMetaData(true);
 			ret+="<br>Total LLOC: "+ChangeCounterUtils.getLLOC(version);
 			ret+="</br></html>";
 		}
@@ -243,7 +245,7 @@ public class Main{
 	}
 	public static String displayVersionChanges(boolean shortReport){
 		if(project==null){
-			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
+			JOptionPane.showMessageDialog(frame,"Please open or create a project first.");
 			return null;
 		}
 		String version1 = JOptionPane.showInputDialog("First version: ");
@@ -251,7 +253,7 @@ public class Main{
 			return null;
 		ProjectVersion v1 = project.getVersion(version1);
 		if(v1==null){
-			JOptionPane.showMessageDialog(null,"Invalid version number.");
+			JOptionPane.showMessageDialog(frame,"Invalid version number.");
 			return null;
 		}
 		String version2 = JOptionPane.showInputDialog("Last version: ");
@@ -259,7 +261,7 @@ public class Main{
 			return null;
 		ProjectVersion v2 = project.getVersion(version2);
 		if(v2==null){
-			JOptionPane.showMessageDialog(null,"Invalid version number.");
+			JOptionPane.showMessageDialog(frame,"Invalid version number.");
 			return null;
 		}
 		String report = "";

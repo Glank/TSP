@@ -13,7 +13,7 @@ public class StubVersion1 extends ProjectVersion {
 	StubFile2 stubFileB = new StubFile2();
 
 	public StubVersion1() throws IOException{
-		super("stubversion", "", "", "", new ArrayList<String>());
+		super("", "", "", new ArrayList<String>());
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class StubVersion1 extends ProjectVersion {
 	}
 	
 	@Override
-	public String getMetaData(){
+	public String getMetaData(boolean html){
 		return "<Meta Data Version 1>";
 	}
 	

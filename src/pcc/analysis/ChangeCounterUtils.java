@@ -195,7 +195,7 @@ public class ChangeCounterUtils{
 			if(v2Files.remove(file)){
 				SourceFileRecord v1File = v1.getFile(file);
 				SourceFileRecord v2File = v2.getFile(file);
-				exportChangeLabels(toDirName, v1.getMetaData(), v2.getMetaData(),
+				exportChangeLabels(toDirName, v1.getMetaData(false), v2.getMetaData(false),
 						v1File.getLines(),v2File.getLines(), toDirName+File.separator+file);
 			}
 		}

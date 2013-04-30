@@ -31,6 +31,7 @@ public class PCCEventHandler implements ActionListener{
 			exportChangeLabels();
 		else
 			JOptionPane.showMessageDialog(null,"Invalid Action Command");
+		Main.frame.update();
 	}
 	
 	private void addFile(){

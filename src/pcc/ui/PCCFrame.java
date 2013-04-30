@@ -1,6 +1,7 @@
 package pcc.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -12,6 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextPane;
+import javax.swing.plaf.ComponentUI;
 
 public class PCCFrame extends JFrame{
 	private static final long serialVersionUID = -5411538418780791931L;
@@ -22,7 +25,7 @@ public class PCCFrame extends JFrame{
 	private ComponentList fileList, versionList;
 	private JButton addFile, commit;
 	private JScrollPane reportsPane;
-	private JEditorPane reports;
+	private JTextPane reports;
 	private PCCEventHandler eventHandler;
 	
 	public PCCFrame(){
@@ -48,7 +51,8 @@ public class PCCFrame extends JFrame{
 		String initReport = 
 			"<html><center>"+
 			"<h1>Welcome</h1>"+
-			"<br>Please create a new project or open an existing project from the file menu.</br>"+
+			"<br>Please create a new project or open an existing</br>" +
+			"<br>project from the file menu.</br>"+
 			"</center></html>";
 		setReport(initReport);
 		
@@ -106,10 +110,12 @@ public class PCCFrame extends JFrame{
 	}
 	
 	private void initReportsPane(){
-		reports = new JEditorPane();
+		reports = new JTextPane();
 		reports.setEditable(false);
 		reports.setContentType("text/html");
-		reportsPane = new JScrollPane(reports);
+		JPanel noWrapPanel = new JPanel( new BorderLayout() );
+		noWrapPanel.add( reports );
+		reportsPane = new JScrollPane(noWrapPanel);
 	}
 	
 	public void setReport(String html){

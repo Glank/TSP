@@ -12,7 +12,6 @@ public class Project implements java.io.Serializable{
 	 */
 	private ArrayList<String> versions;
 	private ArrayList<String> sourceFileNames;
-	private String m_projectName;
 	
 	private ArrayList<ProjectVersion>	m_projVersions;
 	
@@ -21,12 +20,11 @@ public class Project implements java.io.Serializable{
 		versions		=	new ArrayList<String>();
 		sourceFileNames	=	new ArrayList<String>();
 		m_projVersions	=	new ArrayList<ProjectVersion>();
-		
 	}
 	
 	public void commit(String number, String author, String reason) throws IOException
 	{
-		ProjectVersion	projVersion		=	new ProjectVersion (m_projectName, number, author, reason, sourceFileNames);
+		ProjectVersion	projVersion		=	new ProjectVersion (number, author, reason, sourceFileNames);
 		
 		m_projVersions.add(projVersion);
 		
@@ -75,15 +73,5 @@ public class Project implements java.io.Serializable{
 	public ArrayList<String> getVersionList()
 	{
 		return (versions);
-	}
-	
-	public void setProjectName (String p_name)
-	{
-		m_projectName = p_name;
-	}
-
-	public String getProjectName ()
-	{
-		return (m_projectName);
 	}
 }
