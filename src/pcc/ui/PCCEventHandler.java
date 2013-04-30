@@ -14,6 +14,7 @@ public class PCCEventHandler implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Main.frame.setReport("");
 		if(e.getActionCommand().equals("Add File"))
 			addFile();
 		else if(e.getActionCommand().equals("Commit"))

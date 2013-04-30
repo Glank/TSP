@@ -69,7 +69,6 @@ public class Main{
 				JOptionPane.showMessageDialog(null,"A folder/file with the given name already exists.");
 				else{
 					project = new Project();
-				frame.setReport("");
 					saveProject();
 					JOptionPane.showMessageDialog(frame, "Created project "+ projectName);
 				}
