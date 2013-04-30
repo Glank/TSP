@@ -1,6 +1,4 @@
-bla bla bla
-12345789
-abcde
-
-this is a test
-this is also a test
+public static int main(String* args){
+	Project* test;
+	Show->multiLanguage();
+}

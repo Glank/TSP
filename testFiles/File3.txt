@@ -1,5 +1,5 @@
-asdflkjasdf
-asdflasdfj
-asdf
-asdf
-asdf
+def run():
+	itEvenWouldWork()
+	for code in python:
+		whichIs()
+		good()

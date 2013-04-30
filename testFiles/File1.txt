@@ -1,9 +1,5 @@
-3.1415
-abc
-this a test
-adsfkjkd
-and this thing.
-
-asdf
-asdf
-adslkfjalsdkjf
+public static void main(String[] args){
+	this.isATest();
+	wontCompile();
+	doesNot = Matter;
+}
