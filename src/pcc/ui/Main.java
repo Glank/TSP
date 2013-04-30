@@ -26,17 +26,16 @@ public class Main{
 	}
 	public static void openProject(){
 		projectName = JOptionPane.showInputDialog("Project name: ");
-		if (null != projectName)
-		{
+		if (null != projectName){
 			try {
 				project = IOUtils.openProject(projectName+File.separator+"project.dat");
 				project.setProjectName(projectName);
-				JOptionPane.showMessageDialog(frame, "Opened "+ projectName);
 			} catch (Throwable t){
 				JOptionPane.showMessageDialog(null,"Error opening project file.");
 			}
 		}
 	}
+	
 	private static void saveProject(){
 		if(project==null)
 			return;
@@ -50,6 +49,7 @@ public class Main{
 			JOptionPane.showMessageDialog(null,"Error updating project file.");
 		}
 	}
+	
 	public static void explicitSave(){
 		if(project==null){
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
@@ -89,18 +89,14 @@ public class Main{
 			return;
 		File file = jfc.getSelectedFile();
 		if(!file.exists()){
-			JOptionPane.showMessageDialog(null,"Error adding file.");
-			}
-				return;
-			}
-		for(String fn:project.getFiles()){
-			File ofile = new File(fn);
-			if(file.equals(ofile)){
-				JOptionPane.showMessageDialog(null,"That file is already being monitored: see \"files\"");
+			for(String fn:project.getFiles()){
+				File ofile = new File(fn);
+				if(file.equals(ofile)){
+					JOptionPane.showMessageDialog(null,"That file is already being monitored: see \"files\"");
 					return;
 				}
-		}
-		project.addFile(file.getAbsolutePath());
+			}
+			project.addFile(file.getAbsolutePath());
 			saveProject();
 		}
 	}
@@ -124,32 +120,38 @@ public class Main{
 			JOptionPane.showMessageDialog(null,"That version already exists: see \"versions\"");
 				return;
 			}
-		String author = JOptionPane.showInputDialog("Author name: ");
-		String reason = JOptionPane.showInputDialog("Reason for commit: ");
-				if (null != reason)
-				{
-					try {
-						project.commit(number, author, reason);
-					} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error commiting source files.");
-					}
+			String author = JOptionPane.showInputDialog("Author name: ");
+			if(author==null)
+				return;
+			String reason = JOptionPane.showInputDialog("Reason for commit: ");
+			if (null != reason)
+			{
+				try {
+					project.commit(number, author, reason);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null,"Error commiting source files.");
 					saveProject();
 				}
 			}
 		}
 	}
+	
 	public static void exportChangeLables(){
 		if(project==null){
 			JOptionPane.showMessageDialog(null,"Please open or create a project first.");
 			return;
 		}
 		String version1 = JOptionPane.showInputDialog("First version: ");
+		if(version1==null)
+			return;
 		ProjectVersion v1 = project.getVersion(version1);
 		if(v1==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
 			return;
 		}
 		String version2 = JOptionPane.showInputDialog("Last version: ");
+		if(version2==null)
+			return;
 		ProjectVersion v2 = project.getVersion(version2);
 		if(v2==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
@@ -173,22 +175,18 @@ public class Main{
 		else if(jfc.getSelectedFile()==null)
 			return;
 		String dir = jfc.getSelectedFile().getAbsolutePath();
-					try {
-						if(IOUtils.fileExists(dir)){
+		try {
+			if(IOUtils.fileExists(dir)){
 				int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete all files in this directory?");
-				if(response!=JOptionPane.YES_OPTION)
-								return;
-							IOUtils.deleteFolder(dir);
-						}
-						ChangeCounterUtils.exportChangeLabels(dir,
-								project.getVersion(version1), project.getVersion(version2));
-					} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
-					}
-				}
+					if(response!=JOptionPane.YES_OPTION)
+						return;
+				IOUtils.deleteFolder(dir);
 			}
+			ChangeCounterUtils.exportChangeLabels(dir,
+					project.getVersion(version1), project.getVersion(version2));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Error exporting change labels.");
 		}
-		System.out.println("Done Exporting Change Labels");
 	}
 	public static void displayAllFiles(){
 		if(project==null){
@@ -250,12 +248,16 @@ public class Main{
 			return null;
 		}
 		String version1 = JOptionPane.showInputDialog("First version: ");
+		if(version1==null)
+			return null;
 		ProjectVersion v1 = project.getVersion(version1);
 		if(v1==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
 			return null;
 		}
 		String version2 = JOptionPane.showInputDialog("Last version: ");
+		if(version2==null)
+			return null;
 		ProjectVersion v2 = project.getVersion(version2);
 		if(v2==null){
 			JOptionPane.showMessageDialog(null,"Invalid version number.");
@@ -267,7 +269,5 @@ public class Main{
 		else
 			report = ChangeCounterUtils.getLineChangesReport(v1, v2);
 		return report;
-		
-		frame.setReport(report);
 	}
 }

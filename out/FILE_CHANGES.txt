@@ -1,9 +1,8 @@
-Version 2: 13LLOC
+Version 1: 12LLOC
 Version 5: 18LLOC
-testFiles/File1.txt: 0LLOC added, 0LLOC removed, 3LLOC changed
-testFiles/File3.txt: file removed, 5LLOC
-testFiles/File2.txt: file added, 5LLOC
+testFiles/File1.txt: 3LLOC added, 2LLOC removed, 2LLOC changed
+testFiles/File2.txt: 0LLOC added, 0LLOC removed, 0LLOC changed
 /home/ernest/git/TSP2/testFiles/File3.txt: file added, 5LLOC
-Total LLOC Added:   10
-Total LLOC Removed: 5
-Total LLOC Changed: 3
+Total LLOC Added:   8
+Total LLOC Removed: 2
+Total LLOC Changed: 2
